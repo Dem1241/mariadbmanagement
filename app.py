@@ -1,6 +1,7 @@
 # Demhat Bilkay :D
-# Python script managing MariaDB containers (docker)
+# Python script managing MariaDB containers (via dockers)
 # Executing SQL commands, copying tables, creating new instances/containers, and deleting containers
+# Flask to showcase all instances
 
 import mysql.connector
 import sys
@@ -59,13 +60,15 @@ def choose_database_instance():
 
         # Print the existing container options with port information
         if existing_containers:
-            print("\nexisting containers:")
+            print("\nexisting mariadb-instances:")
             for i, container_name in enumerate(existing_containers, start=1):
                 port = get_container_port(container_name)
                 if port:
                     print(f"{i}. container: {container_name} (port: {port})")
                 else:
                     print(f"{i}. container: {container_name} (port: non-existent)")
+        else:
+            print("\nyou currently have no instances. please make one with option b!")
 
         # Add some empty lines for better readability
         print("\nadditional options:")
@@ -77,7 +80,7 @@ def choose_database_instance():
         choice = input("\nenter your choice (container number, 'a', 'b', 'c', or 'd'): ")
 
 
-        if choice.isdigit() and int(choice) - 1 < len(existing_containers):
+        if choice.isdigit() and int(choice) - 1 <= len(existing_containers):
             container_name = existing_containers[int(choice) - 1]
             port = get_container_port(container_name)
             if port:
@@ -409,10 +412,9 @@ while True:
     temp_file = "temp_commands.sql"  # Temporary file path to store SQL commands
     sql_commands = ""  # Variable to store SQL commands
 
-    # Prompt the user to choose a database instance
+    # User prompts in the terminal
     choose_database_instance()
     
-    # Assuming x is defined somewhere above this code snippet
 
     if x == 0:
         # Establish a connection to the database
@@ -423,8 +425,8 @@ while True:
             with open(temp_file, "a") as file:
                 # Prompt the user to enter SQL commands until they indicate they are done
                 while True:
-                    user_input = input("\nenter your sql commands! (type 'that's all :3' to finish): ")
-                    if user_input.lower() == "that's all :3":
+                    user_input = input("\nenter your sql commands! (type 'done!' to finish): ")
+                    if user_input.lower() == "done!":
                         break
 
             # Read the contents of the temporary file
