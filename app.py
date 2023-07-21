@@ -1,4 +1,3 @@
-# Demhat Bilkay :D
 # Python script managing MariaDB containers (via dockers)
 # Executing SQL commands, copying tables, creating new instances/containers, and deleting containers
 # Flask to showcase all instances
